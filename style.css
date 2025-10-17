@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400&display=swap');
 
-html, body {
+html, body, .stApp {
     font-family: 'Open Sans', sans-serif;
     color: #333;
     background-color: #f0f2f6;
@@ -9,11 +9,16 @@ html, body {
 .header h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    color: #1e3a8a;
     text-align: center;
     margin-bottom: 0.5rem;
     padding-top: 1rem;
-    animation: fadeInDown 1s ease-out;
+    font-size: 3em;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: text-gradient-animation 5s ease infinite, fadeInDown 1s ease-out;
 }
 
 .subheader {
@@ -33,14 +38,6 @@ html, body {
     padding: 1rem;
 }
 
-.stSidebar h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    color: #1e3a8a;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-}
-
 .stSidebar .stExpander {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -50,8 +47,9 @@ html, body {
 }
 
 .stSidebar .stExpander:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transform: translateY(-2px);
+    border-color: #3b82f6;
 }
 
 .stSidebar .stExpander div[data-testid="stExpanderHeader"] {
@@ -65,22 +63,6 @@ html, body {
     transition: background-color 0.2s ease-in-out;
 }
 
-.stSidebar .stExpander div[data-testid="stExpanderHeader"]:hover {
-    background-color: #e2e8f0;
-}
-
-.stSlider label, .stSelectbox label {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    color: #4a5568;
-    margin-bottom: 0.3rem;
-}
-
-.stSlider div[data-testid="stThumbValue"] {
-    background-color: #1e3a8a;
-    border: 1px solid #1e3a8a;
-}
-
 .stDownloadButton button {
     background-color: #1e3a8a;
     color: white;
@@ -88,12 +70,19 @@ html, body {
     font-weight: 600;
     border-radius: 8px;
     padding: 0.8rem 1.2rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .stDownloadButton button:hover {
     background-color: #2c5282;
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+}
+
+.main-container {
+    animation: fadeIn 1.2s ease-out;
 }
 
 .image-title {
@@ -102,6 +91,18 @@ html, body {
     color: #2d3748;
     text-align: center;
     margin-bottom: 1rem;
+}
+
+.image-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.image-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .processing-status {
@@ -151,22 +152,10 @@ html, body {
     opacity: 0;
 }
 
-.stFileUploader label {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    color: #2d3748;
-    font-size: 1.1em;
-}
-
-.stFileUploader button {
-    background-color: #4299e1;
-    color: white;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.2s ease;
-}
-.stFileUploader button:hover {
-    background-color: #3182ce;
+@keyframes text-gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @keyframes fadeIn {
