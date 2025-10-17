@@ -6,8 +6,8 @@ import io
 import time
 
 st.set_page_config(
-    page_title="ImageLab Pro-Animator",
-    page_icon="✨",
+    page_title="ImageLab Animator",
+    page_icon="🎬",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -47,8 +47,8 @@ def apply_vignette(img, strength):
     output = np.clip(output * 255.0, 0, 255).astype(np.uint8)
     return output
 
-st.markdown('<div class="header"><h1>✨ ImageLab Pro-Animator</h1></div>', unsafe_allow_html=True)
-st.markdown('<p class="subheader">Crafted by <strong>Chetan</strong>. Your ultimate studio for breathtaking photo transformations!</p>', unsafe_allow_html=True)
+st.markdown('<div class="header"><h1>🎬 ImageLab Animator</h1></div>', unsafe_allow_html=True)
+st.markdown('<p class="subheader">Crafted by <strong>Chetan</strong>. The definitive studio for dynamic photo editing.</p>', unsafe_allow_html=True)
 
 st.sidebar.header("🛠️ Controls")
 uploaded_file = st.sidebar.file_uploader("Upload your image to begin...", type=["jpg", "png", "jpeg"])
@@ -60,10 +60,13 @@ if uploaded_file is not None:
         img_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
         time.sleep(0.5)
 
+    st.markdown('<div class="main-container">', unsafe_allow_html=True)
     col1, col2 = st.columns(2, gap="large")
     with col1:
-        st.markdown('<h3 class="image-title">Original Image</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="image-title">Original</h3>', unsafe_allow_html=True)
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
         st.image(original_image, use_container_width=True, channels="RGB")
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.sidebar.markdown("---")
     
@@ -82,7 +85,7 @@ if uploaded_file is not None:
         blue_balance = st.slider("Blue", -50, 50, 0, key='blue_balance_slider')
         
     with st.sidebar.expander("🌟 Effects & Filters"):
-        sharpness = st.slider("Sharpen", 0, 100, 0, key='sharpness_slider')
+        sharpness = st.slider("Sharpness", 0, 100, 0, key='sharpness_slider')
         blur = st.slider("Blur", 0, 100, 0, key='blur_slider')
         vignette_strength = st.slider("Vignette", 0, 100, 0, key='vignette_slider')
         effect = st.selectbox("Apply a special filter", ["None", "Grayscale", "Pencil Sketch", "Sepia"], key='effect_selector')
@@ -91,8 +94,6 @@ if uploaded_file is not None:
     progress_bar = st.progress(0)
     
     processed_img = img_bgr.copy()
-    
-    # FIX: Use a list to store the current step counter, making it mutable and accessible
     current_step_list = [0] 
     processing_steps = 7
 
@@ -156,17 +157,21 @@ if uploaded_file is not None:
     st.markdown('<div class="processing-status-complete">Processing Complete!</div>', unsafe_allow_html=True)
 
     with col2:
-        st.markdown('<h3 class="image-title">Processed Image</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="image-title">Processed</h3>', unsafe_allow_html=True)
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
         st.image(processed_img, channels="BGR" if len(processed_img.shape)==3 else "GRAY", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True) # Close main-container
         
-        st.sidebar.markdown("---")
-        st.sidebar.download_button(
-           label="📥 Download Edited Image",
-           data=convert_image_to_bytes(processed_img),
-           file_name="ImageLab_edited_photo.png",
-           mime="image/png",
-           use_container_width=True
-        )
+    st.sidebar.markdown("---")
+    st.sidebar.download_button(
+        label="📥 Download Edited Image",
+        data=convert_image_to_bytes(processed_img),
+        file_name="ImageLab_edited_photo.png",
+        mime="image/png",
+        use_container_width=True
+    )
 
 else:
     st.markdown('<div class="landing-container">', unsafe_allow_html=True)
