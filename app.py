@@ -13,7 +13,6 @@ st.set_page_config(
 def convert_image_to_bytes(img, format="PNG"):
     if isinstance(img, np.ndarray):
         if len(img.shape) == 3:
-             # FIX 1: Changed 'cv' to 'cv2' here
              img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(img)
     
@@ -122,6 +121,6 @@ if uploaded_file is not None:
         )
 
 else:
-    # FIX 2: Replaced the unstable image link with a more reliable one.
-    st.image("https://images.pexels.com/photos/355747/pexels-photo-355747.jpeg", caption="Photo by Johannes Plenio on Pexels")
+    new_image_url = "https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0"
+    st.image(new_image_url, caption="Photo by Daniele Levis Pelusi on Unsplash", width=600)
     st.markdown("<h2 style='text-align: center;'>Upload an image to start your creative journey!</h2>", unsafe_allow_html=True)
