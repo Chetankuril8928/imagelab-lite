@@ -1,169 +1,323 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Open+Sans:wght@300;400;600&display=swap');
 
+/* Global Reset & Body Styles */
 html, body, .stApp {
     font-family: 'Open Sans', sans-serif;
     color: #333;
-    background-color: #f0f2f6;
+    background: linear-gradient(135deg, #f0f2f6 0%, #e9edf2 100%); /* Subtle gradient background */
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+    position: relative;
+    padding-top: 20px; /* Space for main header */
 }
 
+/* Background Particles (NEW) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at bottom right, rgba(239, 68, 68, 0.05) 0%, transparent 40%);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundPulse 15s infinite alternate ease-in-out;
+}
+
+/* Header Styling */
 .header h1 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
+    font-weight: 800; /* Bolder */
     text-align: center;
-    margin-bottom: 0.5rem;
-    padding-top: 1rem;
-    font-size: 3em;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa);
-    background-size: 200% 200%;
+    margin-bottom: 0.8rem;
+    font-size: 3.5em; /* Slightly larger */
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa, #1e3a8a); /* Extended gradient */
+    background-size: 300% 300%; /* Larger for smoother animation */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: text-gradient-animation 5s ease infinite, fadeInDown 1s ease-out;
+    animation: text-gradient-animation 8s ease infinite, fadeInDown 1.2s ease-out; /* Slower gradient, slightly slower fadeIn */
+    letter-spacing: -1px; /* Tighter for modern look */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
 }
 
 .subheader {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     color: #4a5568;
     text-align: center;
-    font-size: 1.1em;
-    margin-bottom: 2rem;
-    animation: fadeInUp 1s ease-out 0.2s forwards;
-    opacity: 0;
+    font-size: 1.15em;
+    margin-bottom: 2.5rem; /* More space */
+    animation: fadeInUp 1.2s ease-out 0.3s forwards; /* Animation with delay */
+    opacity: 0; /* Start hidden for animation */
+    line-height: 1.5;
 }
 
+/* Sidebar Styling */
 .stSidebar {
     background-color: #ffffff;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-    padding: 1rem;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.08); /* More prominent shadow */
+    padding: 1.5rem 1rem; /* More padding */
+    border-radius: 0 15px 15px 0; /* Rounded right edge */
+    animation: slideInLeft 0.8s ease-out; /* Sidebar entrance animation */
 }
 
 .stSidebar h2 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
+    font-weight: 700; /* Bolder */
     color: #1e3a8a;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-top: 1.8rem; /* More spacing */
+    margin-bottom: 1.2rem;
+    position: relative;
+    padding-bottom: 5px;
+}
+.stSidebar h2:after { /* Underline effect for sidebar headers */
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    border-radius: 2px;
 }
 
 .stSidebar .stExpander {
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    margin-bottom: 0.8rem;
+    border-radius: 10px; /* Slightly more rounded */
+    margin-bottom: 1rem;
     overflow: hidden;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle initial shadow */
 }
 
 .stSidebar .stExpander:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
-    border-color: #3b82f6;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15); /* More pronounced shadow on hover */
+    transform: translateY(-3px); /* Stronger lift on hover */
+    border-color: #3b82f6; /* Highlight border */
 }
 
 .stSidebar .stExpander div[data-testid="stExpanderHeader"] {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    font-size: 1.05em;
+    font-size: 1.08em; /* Slightly larger */
     color: #2d3748;
-    padding: 0.8rem 1rem;
+    padding: 1rem 1.2rem; /* More padding */
     background-color: #edf2f7;
     border-bottom: 1px solid #e2e8f0;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    cursor: pointer;
 }
 
+.stSidebar .stExpander div[data-testid="stExpanderHeader"]:hover {
+    background-color: #e2e8f0;
+    color: #1e3a8a; /* Dark blue on hover */
+}
+
+/* Sliders, Selectboxes, Labels (More polished) */
+.stSlider label, .stSelectbox label, .stNumberInput label, .stTextInput label {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600; /* Slightly bolder labels */
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    display: block; /* Ensures label is above control */
+    transition: color 0.2s ease-in-out;
+}
+
+.stSlider .st-fx, .stSelectbox .st-fx, .stNumberInput .st-fx, .stTextInput .st-fx {
+    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+    transition: all 0.2s ease-in-out;
+}
+
+.stSlider .st-fx:hover, .stSelectbox .st-fx:hover, .stNumberInput .st-fx:hover, .stTextInput .st-fx:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.stSlider div[data-testid="stThumbValue"] {
+    background-color: #3b82f6; /* Brighter blue for slider thumb */
+    border: 1px solid #3b82f6;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Download Button Styling (Enhanced) */
 .stDownloadButton button {
-    background-color: #1e3a8a;
+    background: linear-gradient(45deg, #3b82f6, #60a5fa); /* Gradient button */
     color: white;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 0.8rem 1.2rem;
+    font-weight: 700; /* Bolder */
+    border-radius: 10px; /* More rounded */
+    padding: 1rem 1.5rem; /* Larger padding */
     transition: all 0.3s ease;
     border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    letter-spacing: 0.5px;
+    cursor: pointer;
 }
 
 .stDownloadButton button:hover {
-    background-color: #2c5282;
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(45deg, #2563eb, #3b82f6); /* Darker gradient on hover */
+    transform: translateY(-5px) scale(1.03); /* More pronounced lift */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
+.stDownloadButton button:active { /* Press down effect */
+    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Main Content Container & Animations */
 .main-container {
-    animation: fadeIn 1.2s ease-out;
+    padding: 1rem 2rem;
+    animation: fadeIn 1.5s ease-out; /* Slower, smoother fade-in for main content */
 }
 
 .image-title {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
+    font-weight: 700;
     color: #2d3748;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.8em;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
 }
 
 .image-container {
-    border-radius: 12px;
+    border-radius: 15px; /* More rounded */
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15); /* Stronger initial shadow */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, more complex transition */
+    background-color: #fff; /* Ensure white background for images */
+    animation: zoomIn 1s ease-out 0.4s forwards; /* Image entrance animation */
+    opacity: 0;
 }
 
 .image-container:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: scale(1.03) rotateZ(-0.5deg); /* Slight rotate on hover for dynamic feel */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25); /* Even stronger shadow */
 }
 
+/* Processing Status (Enhanced) */
 .processing-status {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     color: #4a5568;
     text-align: center;
-    margin-top: 1.5rem;
-    animation: pulse 1.5s infinite;
+    margin-top: 2rem; /* More space */
+    animation: pulse 1.8s infinite ease-in-out; /* Slower, smoother pulse */
+    font-size: 1.1em;
 }
 
 .processing-status-complete {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
+    font-weight: 700; /* Bolder */
     color: #2f855a;
     text-align: center;
-    margin-top: 1.5rem;
-    animation: fadeIn 1s ease-out;
+    margin-top: 2rem;
+    animation: fadeInScale 1s ease-out; /* New completion animation */
+    font-size: 1.1em;
 }
 
+/* Landing Page Styling */
 .landing-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 80vh; /* Takes more vertical space */
     padding: 2rem;
-    animation: fadeIn 1.5s ease-out;
+    animation: fadeIn 2s ease-out; /* Slower fade-in for whole page */
 }
 
 .landing-message {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
+    font-weight: 800;
     color: #1e3a8a;
     text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 1.5rem;
-    animation: slideInDown 1s ease-out;
+    font-size: 3.5em; /* Larger font */
+    margin-bottom: 1.8rem;
+    animation: slideInDown 1.2s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother slide in */
+    text-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.landing-container .stImage { /* Styling for the example image on landing */
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: all 0.3s ease-in-out;
+    animation: zoomIn 1s ease-out 0.6s forwards;
+    opacity: 0;
+}
+.landing-container .stImage:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 
 .upload-prompt {
     font-family: 'Open Sans', sans-serif;
-    font-size: 1.2em;
+    font-size: 1.3em; /* Larger prompt */
     color: #4a5568;
     text-align: center;
-    margin-top: 1.5rem;
-    animation: fadeInUp 1.5s ease-out 0.5s forwards;
+    margin-top: 2rem;
+    animation: fadeInUp 1.2s ease-out 0.8s forwards; /* Delayed fade in */
     opacity: 0;
+    max-width: 600px;
+    line-height: 1.6;
 }
 
+.stFileUploader label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; /* Bolder label */
+    color: #2d3748;
+    font-size: 1.2em; /* Larger label */
+    margin-bottom: 1rem;
+}
+
+/* Custom Streamlit File Uploader Button Styling (More animated) */
+.stFileUploader button {
+    background: linear-gradient(45deg, #4299e1, #63b3ed); /* Blue gradient */
+    color: white;
+    border-radius: 10px;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.05em;
+    cursor: pointer;
+}
+.stFileUploader button:hover {
+    background: linear-gradient(45deg, #3182ce, #4299e1); /* Darker blue gradient */
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+.stFileUploader button:active {
+    transform: translateY(-1px) scale(0.99);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+/* Animated Divider (NEW) */
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+    margin: 1.5rem 0;
+    border-radius: 1px;
+    opacity: 0.7;
+    animation: dividerShimmer 3s infinite linear;
+}
+
+
+/* --- Keyframe Animations (Enhanced & New) --- */
 @keyframes text-gradient-animation {
     0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 @keyframes fadeIn {
@@ -172,22 +326,48 @@ html, body, .stApp {
 }
 
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
+    from { opacity: 0; transform: translateY(-30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInDown {
-    from { transform: translateY(-50px); opacity: 0; }
+    from { transform: translateY(-80px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
+@keyframes slideInLeft { /* For sidebar */
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes zoomIn { /* For image containers */
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.03); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.02); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 0.9; }
+}
+
+@keyframes fadeInScale { /* For completion message */
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dividerShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes backgroundPulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.05); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 0.6; }
 }
