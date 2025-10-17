@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400&display=swap');
+
+html, body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    background-color: #f0f2f6;
+}
+
+.header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    padding-top: 1rem;
+    animation: fadeInDown 1s ease-out;
+}
+
+.subheader {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    color: #4a5568;
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+.stSidebar {
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    padding: 1rem;
+}
+
+.stSidebar h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.stSidebar .stExpander {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+.stSidebar .stExpander:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.stSidebar .stExpander div[data-testid="stExpanderHeader"] {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.05em;
+    color: #2d3748;
+    padding: 0.8rem 1rem;
+    background-color: #edf2f7;
+    border-bottom: 1px solid #e2e8f0;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.stSidebar .stExpander div[data-testid="stExpanderHeader"]:hover {
+    background-color: #e2e8f0;
+}
+
+.stSlider label, .stSelectbox label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    color: #4a5568;
+    margin-bottom: 0.3rem;
+}
+
+.stSlider div[data-testid="stThumbValue"] {
+    background-color: #1e3a8a;
+    border: 1px solid #1e3a8a;
+}
+
+.stDownloadButton button {
+    background-color: #1e3a8a;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.stDownloadButton button:hover {
+    background-color: #2c5282;
+    transform: translateY(-2px);
+}
+
+.image-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.processing-status {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #4a5568;
+    text-align: center;
+    margin-top: 1.5rem;
+    animation: pulse 1.5s infinite;
+}
+
+.processing-status-complete {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #2f855a;
+    text-align: center;
+    margin-top: 1.5rem;
+    animation: fadeIn 1s ease-out;
+}
+
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.landing-message {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 1.5rem;
+    animation: slideInDown 1s ease-out;
+}
+
+.upload-prompt {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2em;
+    color: #4a5568;
+    text-align: center;
+    margin-top: 1.5rem;
+    animation: fadeInUp 1s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+.stFileUploader label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1.1em;
+}
+
+.stFileUploader button {
+    background-color: #4299e1;
+    color: white;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease;
+}
+.stFileUploader button:hover {
+    background-color: #3182ce;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.03); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
