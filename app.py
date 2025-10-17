@@ -13,7 +13,8 @@ st.set_page_config(
 def convert_image_to_bytes(img, format="PNG"):
     if isinstance(img, np.ndarray):
         if len(img.shape) == 3:
-             img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+             # FIX 1: Changed 'cv' to 'cv2' here
+             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(img)
     
     buf = io.BytesIO()
@@ -121,5 +122,6 @@ if uploaded_file is not None:
         )
 
 else:
-    st.image("https://images.unsplash.com/photo-1493612276216-82eb9f423e9a", caption="Photo by UX Indonesia on Unsplash")
+    # FIX 2: Replaced the unstable image link with a more reliable one.
+    st.image("https://images.pexels.com/photos/355747/pexels-photo-355747.jpeg", caption="Photo by Johannes Plenio on Pexels")
     st.markdown("<h2 style='text-align: center;'>Upload an image to start your creative journey!</h2>", unsafe_allow_html=True)
