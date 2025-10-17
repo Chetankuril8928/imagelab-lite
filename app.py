@@ -133,6 +133,7 @@ if uploaded_file is not None:
         )
 
 else:
-    new_image_url = "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83"
-    st.image(new_image_url, caption="Photo by Brizmaker on Unsplash", width=550)
+    # --- THIS IS THE ONLY SECTION THAT HAS BEEN CHANGED ---
+    new_image_url = "https://images.unsplash.com/photo-1518779578619-a9161a3512b2" # New beautiful image
+    st.image(new_image_url, caption="Photo by Johannes Plenio on Unsplash", width=550)
     st.markdown("<h2 style='text-align: center;'>Upload an image to start your creative journey!</h2>", unsafe_allow_html=True)
