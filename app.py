@@ -82,7 +82,7 @@ if uploaded_file is not None:
         blue_balance = st.slider("Blue", -50, 50, 0, key='blue_balance_slider')
         
     with st.sidebar.expander("🌟 Effects & Filters"):
-        sharpness = st.slider("Sharpness", 0, 100, 0, key='sharpness_slider')
+        sharpness = st.slider("Sharpen", 0, 100, 0, key='sharpness_slider')
         blur = st.slider("Blur", 0, 100, 0, key='blur_slider')
         vignette_strength = st.slider("Vignette", 0, 100, 0, key='vignette_slider')
         effect = st.selectbox("Apply a special filter", ["None", "Grayscale", "Pencil Sketch", "Sepia"], key='effect_selector')
@@ -91,23 +91,24 @@ if uploaded_file is not None:
     progress_bar = st.progress(0)
     
     processed_img = img_bgr.copy()
+    
+    # FIX: Use a list to store the current step counter, making it mutable and accessible
+    current_step_list = [0] 
     processing_steps = 7
-    current_step = 0
 
-    def update_progress():
-        nonlocal current_step
-        current_step += 1
-        progress_bar.progress(current_step / processing_steps)
+    def update_progress_fix():
+        current_step_list[0] += 1
+        progress_bar.progress(current_step_list[0] / processing_steps)
         time.sleep(0.05)
 
     processed_img = cv2.convertScaleAbs(processed_img, alpha=1 + contrast / 100.0, beta=brightness)
-    update_progress()
+    update_progress_fix()
 
     if gamma != 1.0:
         invGamma = 1.0 / gamma
         table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
         processed_img = cv2.LUT(processed_img, table)
-    update_progress()
+    update_progress_fix()
 
     hsv = cv2.cvtColor(processed_img, cv2.COLOR_BGR2HSV)
     h, s, v = cv2.split(hsv)
@@ -122,21 +123,21 @@ if uploaded_file is not None:
     r = np.clip(cv2.add(r, temp * 0.5), 0, 255).astype(np.uint8) 
     b = np.clip(cv2.subtract(b, temp * 0.5), 0, 255).astype(np.uint8) 
     processed_img = cv2.merge([b, g, r])
-    update_progress()
+    update_progress_fix()
 
     if sharpness > 0:
         kernel = np.array([[-1, -1, -1], [-1, 9 + sharpness / 10.0, -1], [-1, -1, -1]])
         processed_img = cv2.filter2D(processed_img, -1, kernel)
-    update_progress()
+    update_progress_fix()
 
     if blur > 0:
         k_size = (blur * 2) + 1
         processed_img = cv2.GaussianBlur(processed_img, (k_size, k_size), 0)
-    update_progress()
+    update_progress_fix()
 
     if vignette_strength > 0:
         processed_img = apply_vignette(processed_img, vignette_strength)
-    update_progress()
+    update_progress_fix()
 
     if effect == "Grayscale":
         processed_img = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
@@ -149,7 +150,7 @@ if uploaded_file is not None:
         sepia_kernel = np.array([[0.272, 0.534, 0.131], [0.349, 0.686, 0.168], [0.393, 0.769, 0.189]])
         sepia_img = cv2.transform(processed_img, sepia_kernel)
         processed_img = np.clip(sepia_img, 0, 255).astype(np.uint8)
-    update_progress()
+    update_progress_fix()
     
     progress_bar.empty()
     st.markdown('<div class="processing-status-complete">Processing Complete!</div>', unsafe_allow_html=True)
