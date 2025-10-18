@@ -148,13 +148,18 @@ st.markdown('<div class="header"><h1>🎬 ImageLab Pro</h1></div>', unsafe_allow
 st.markdown('<p class="subheader">Crafted by <strong>Chetan</strong>. The definitive studio for dynamic photo editing.</p>', unsafe_allow_html=True)
 
 st.sidebar.header("🛠️ Controls")
-uploaded_file = st.sidebar.file_uploader("Upload your image to begin...", type=["jpg", "png", "jpeg"])
+uploaded_file = st.sidebar.file_uploader("Upload your image to begin...", type=["jpg", "png", "jpeg"], key="image_uploader")
 
 if uploaded_file is not None:
-    if 'current_file_id' not in st.session_state or uploaded_file.id != st.session_state.current_file_id:
-        st.session_state.current_file_id = uploaded_file.id
+    # Use uploaded_file.name combined with a session_state variable for uniqueness
+    if 'current_file_name' not in st.session_state or uploaded_file.name != st.session_state.current_file_name:
+        st.session_state.current_file_name = uploaded_file.name
         st.session_state.processing_complete = False
-
+    
+    # Also, reset if a new file is uploaded through the same name (less common but good practice)
+    # Streamlit re-runs on any widget change, so if 'uploaded_file' itself changes, this will trigger.
+    # The key on the uploader ensures Streamlit treats it as a distinct widget even if the name is same but content changes.
+    
     if not st.session_state.processing_complete:
         st.markdown("""
         <div class="loading-container">
@@ -180,38 +185,38 @@ if uploaded_file is not None:
     st.sidebar.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     
     with st.sidebar.expander("🎥 Cinematic Controls", expanded=True):
-        exposure = st.slider("Exposure", -50, 50, 0)
-        highlights = st.slider("Highlights", -50, 50, 0)
-        shadows = st.slider("Shadows", -50, 50, 0)
-        hsl_hue = st.slider("HSL Hue Shift", -180, 180, 0)
-        hsl_sat = st.slider("HSL Saturation", 0.0, 3.0, 1.0, 0.1)
-        hsl_light = st.slider("HSL Lightness", 0.0, 2.0, 1.0, 0.1)
+        exposure = st.slider("Exposure", -50, 50, 0, key='exposure_slider')
+        highlights = st.slider("Highlights", -50, 50, 0, key='highlights_slider')
+        shadows = st.slider("Shadows", -50, 50, 0, key='shadows_slider')
+        hsl_hue = st.slider("HSL Hue Shift", -180, 180, 0, key='hsl_hue_slider')
+        hsl_sat = st.slider("HSL Saturation", 0.0, 3.0, 1.0, 0.1, key='hsl_sat_slider')
+        hsl_light = st.slider("HSL Lightness", 0.0, 2.0, 1.0, 0.1, key='hsl_light_slider')
 
     with st.sidebar.expander("⚪ Basic Adjustments"):
-        brightness = st.slider("Brightness", -100, 100, 0)
-        contrast = st.slider("Contrast", -100, 100, 0)
-        gamma = st.slider("Gamma", 0.1, 3.0, 1.0, 0.1)
+        brightness = st.slider("Brightness", -100, 100, 0, key='brightness_slider')
+        contrast = st.slider("Contrast", -100, 100, 0, key='contrast_slider')
+        gamma = st.slider("Gamma", 0.1, 3.0, 1.0, 0.1, key='gamma_slider')
 
     with st.sidebar.expander("🎨 Global Color & Tone"):
-        saturation = st.slider("Saturation (Global)", 0.0, 3.0, 1.0, 0.1)
-        hue = st.slider("Hue Shift (Global)", -180, 180, 0)
-        temp = st.slider("Temperature", -100, 100, 0)
-        red_balance = st.slider("Red", -50, 50, 0)
-        green_balance = st.slider("Green", -50, 50, 0)
-        blue_balance = st.slider("Blue", -50, 50, 0)
+        saturation = st.slider("Saturation (Global)", 0.0, 3.0, 1.0, 0.1, key='global_saturation_slider')
+        hue = st.slider("Hue Shift (Global)", -180, 180, 0, key='global_hue_slider')
+        temp = st.slider("Temperature", -100, 100, 0, key='temp_slider')
+        red_balance = st.slider("Red", -50, 50, 0, key='red_balance_slider')
+        green_balance = st.slider("Green", -50, 50, 0, key='green_balance_slider')
+        blue_balance = st.slider("Blue", -50, 50, 0, key='blue_balance_slider')
         
     with st.sidebar.expander("🌟 Static Effects & Filters"):
-        sharpness = st.slider("Sharpness", 0, 100, 0)
-        blur = st.slider("Blur", 0, 100, 0)
-        vignette_strength = st.slider("Vignette", 0, 100, 0)
-        film_grain = st.slider("Film Grain", 0, 100, 0)
-        effect = st.selectbox("Apply a filter", ["None", "Grayscale", "Pencil Sketch", "Sepia"])
+        sharpness = st.slider("Sharpness", 0, 100, 0, key='sharpness_slider')
+        blur = st.slider("Blur", 0, 100, 0, key='blur_slider')
+        vignette_strength = st.slider("Vignette", 0, 100, 0, key='vignette_slider')
+        film_grain = st.slider("Film Grain", 0, 100, 0, key='film_grain_slider')
+        effect = st.selectbox("Apply a filter", ["None", "Grayscale", "Pencil Sketch", "Sepia"], key='effect_selector')
 
     st.sidebar.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     with st.sidebar.expander("✨ Animated Effects"):
-        animated_effect = st.selectbox("Add animated weather!", ["None", "Rain", "Snow"])
-        animation_frames = st.slider("Animation Frames", 10, 50, 20)
-        animation_speed = st.slider("Animation Speed", 0.05, 0.2, 0.1, 0.01)
+        animated_effect = st.selectbox("Add animated weather!", ["None", "Rain", "Snow"], key='animated_effect_selector')
+        animation_frames = st.slider("Animation Frames", 10, 50, 20, key='anim_frames_slider')
+        animation_speed = st.slider("Animation Speed", 0.05, 0.2, 0.1, 0.01, key='anim_speed_slider')
 
     if not st.session_state.processing_complete:
         st.markdown('<div class="processing-status">Processing Image...</div>', unsafe_allow_html=True)
@@ -219,26 +224,21 @@ if uploaded_file is not None:
         
         processed_img = img_bgr.copy()
         
-        # Apply Exposure
         processed_img = cv2.convertScaleAbs(processed_img, alpha=1 + exposure / 100.0, beta=0)
         progress_bar.progress(1/12)
         
-        # Apply Highlights & Shadows
         processed_img = adjust_highlights_shadows(processed_img, highlights, shadows)
         progress_bar.progress(2/12)
         
-        # Apply Brightness & Contrast
         processed_img = cv2.convertScaleAbs(processed_img, alpha=1 + contrast / 100.0, beta=brightness)
         progress_bar.progress(3/12)
         
-        # Apply Gamma
         if gamma != 1.0:
             invGamma = 1.0 / gamma
             table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
             processed_img = cv2.LUT(processed_img, table)
         progress_bar.progress(4/12)
         
-        # Apply Global Saturation and Hue
         hsv = cv2.cvtColor(processed_img, cv2.COLOR_BGR2HSV)
         h, s, v = cv2.split(hsv)
         s = np.clip(cv2.multiply(s, saturation), 0, 255).astype(np.uint8)
@@ -246,7 +246,6 @@ if uploaded_file is not None:
         processed_img = cv2.cvtColor(cv2.merge([h, s, v]), cv2.COLOR_HSV2BGR)
         progress_bar.progress(5/12)
         
-        # Apply Temperature and Color Balance
         b, g, r = cv2.split(processed_img)
         r = np.clip(cv2.add(r, red_balance), 0, 255).astype(np.uint8)
         g = np.clip(cv2.add(g, green_balance), 0, 255).astype(np.uint8)
@@ -256,32 +255,26 @@ if uploaded_file is not None:
         processed_img = cv2.merge([b, g, r])
         progress_bar.progress(6/12)
 
-        # Apply HSL Adjustments
         processed_img = adjust_hsl(processed_img, hsl_hue, hsl_sat, hsl_light)
         progress_bar.progress(7/12)
         
-        # Apply Sharpening
         if sharpness > 0:
             kernel = np.array([[-1, -1, -1], [-1, 9 + sharpness / 10.0, -1], [-1, -1, -1]])
             processed_img = cv2.filter2D(processed_img, -1, kernel)
         progress_bar.progress(8/12)
 
-        # Apply Blur
         if blur > 0:
             k_size = (blur * 2) + 1
             processed_img = cv2.GaussianBlur(processed_img, (k_size, k_size), 0)
         progress_bar.progress(9/12)
 
-        # Apply Vignette
         if vignette_strength > 0:
             processed_img = apply_vignette(processed_img, vignette_strength)
         progress_bar.progress(10/12)
 
-        # Apply Film Grain
         processed_img = add_film_grain(processed_img, film_grain)
         progress_bar.progress(11/12)
 
-        # Apply Static Filters
         if effect == "Grayscale":
             processed_img = cv2.cvtColor(processed_img, cv2.COLOR_BGR2GRAY)
         elif effect == "Pencil Sketch":
